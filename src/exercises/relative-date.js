@@ -13,9 +13,49 @@
 * Lastly, please write a unit test for calculateRelativeDate function
 * */
 
-const calculateRelativeDate = (inputDate) => {
-  return `TODO: Please see the above requirement`;
-};
+const relativeDateValues = {
+  TODAY: 'Today',
+  YESTERDAY: 'Yesterday',
+  THIS_WEEK: 'This week',
+  LAST_WEEK: 'Last week',
+  THIS_MONTH: 'This month',
+  LAST_MONTH: 'Last month',
+  THIS_YEAR: 'This year',
+  LAST_YEAR: 'Last year',
+  LONG_TIME_AGO: 'Long time ago'
+}
+
+const calculateRelativeDate = (inputDateString) => {
+  const today = new Date(new Date().setHours(0, 0, 0, 0));
+  const inputDate = new Date(new Date(inputDateString).setHours(0, 0, 0, 0));
+  const diff = Math.round((today - inputDate) / (1000 * 60 * 60 * 24))
+  const getYearDiff = () => today.getYear() - inputDate.getYear();
+  const getMonthDiff = () => today.getMonth() - inputDate.getMonth();
+
+  const day = 1;
+  const week = day * 7;
+
+  if (diff <= 0) {
+    return relativeDateValues.TODAY;
+  } else if (diff <= day) {
+    return relativeDateValues.YESTERDAY;
+  } else if (diff <= week) {
+    return relativeDateValues.THIS_WEEK;
+  } else if (diff <= ((week * 2) - day)) {
+    return relativeDateValues.LAST_WEEK;
+  } else if ((getYearDiff() === 0) && (getMonthDiff() === 0) && diff >= (week * 2)) {
+    return relativeDateValues.THIS_MONTH;
+  } else if (getYearDiff() === 0 && getMonthDiff() === 1) {
+    return relativeDateValues.LAST_MONTH;
+  } else if (getYearDiff() === 0) {
+    return relativeDateValues.THIS_YEAR;
+  } else if (getYearDiff() === 1) {
+    return relativeDateValues.LAST_YEAR;
+  } else {
+    return relativeDateValues.LONG_TIME_AGO;
+  }
+}
+
 
 const View = {
   init: () => {
@@ -28,4 +68,4 @@ const View = {
 };
 
 document.addEventListener('DOMContentLoaded', View.init);
-export {calculateRelativeDate};
+export { calculateRelativeDate, relativeDateValues };
