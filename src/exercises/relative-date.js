@@ -29,7 +29,7 @@ const calculateRelativeDate = (inputDateString) => {
   const today = new Date(new Date().setHours(0, 0, 0, 0));
   const inputDate = new Date(new Date(inputDateString).setHours(0, 0, 0, 0));
   const diff = Math.round((today - inputDate) / (1000 * 60 * 60 * 24))
-  const getYearDiff = () => today.getYear() - inputDate.getYear();
+  const getYearDiff = () => today.getFullYear() - inputDate.getFullYear();
   const getMonthDiff = () => today.getMonth() - inputDate.getMonth();
 
   const day = 1;
