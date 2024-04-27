@@ -47,7 +47,7 @@ const NumericInput = {
     const correctedValue = NumericInput.valueCorrector(target.value);
     target.value = correctedValue;
     const isValid = NumericInput.numericValidator(correctedValue);
-    
+
     NumericInput.triggerValidation(target, isValid);
 
     if (isValid) {
@@ -106,8 +106,9 @@ const NumericInput = {
   },
   createValidationHint: (text) => {
     const elem = document.createElement('span')
+    const textNode = document.createTextNode(text);
     elem.classList.add(validationHintClass);
-    elem.innerHTML = text; 
+    elem.appendChild(textNode); 
     return elem;
   },
   appendValidationHint: (inputElem, hintElem) => {

@@ -14,11 +14,53 @@
 * 1002   iPad
 *
 * */
+const getAllProducts = () => {
+  return fetch('http://localhost:4002/products', {
+    method: 'GET'
+  }).then(
+    (response) => response.json()
+  );
+}
+
+const getUsersCart = () => {
+  return fetch('http://localhost:4002/cart', {
+    method: 'GET'
+  }).then(
+    (response) => response.json()
+  );
+}
+
+const generateCell = (text) => {
+  const tr = document.createElement('td');
+  const textNode = document.createTextNode(text);
+  tr.appendChild(textNode);
+  return tr;
+};
+
+const generateRow = (...args) => {
+  const tr = document.createElement('tr');
+  for (const arg of args) {
+    tr.appendChild(
+      generateCell(arg),
+    );
+  }
+  return tr;
+};
+
 const View = {
-  init: () => {
+  init: async () => {
     const tbodyElem = document.getElementById('shopping-cart-tbl').querySelector('tbody');
 
-    console.log('TODO: Please see the above requirement');
+    const allProducts = await getAllProducts();
+    const productsInCart = await getUsersCart();
+
+    const rows = productsInCart
+    .map(({ id }) => allProducts.find((product) => product.id === id))
+    .map(({ id, name }) => generateRow(id, name))
+
+    for (const row of rows) {
+      tbodyElem.appendChild(row)
+    }
   }
 };
 document.addEventListener('DOMContentLoaded', View.init);
